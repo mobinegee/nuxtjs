@@ -200,7 +200,7 @@ html, body {
 }
 
 .product-card img {
-  width: 80%;
+  width: 100%;
   height: 300px;
   padding: 10px;
   object-fit: cover;
@@ -267,6 +267,9 @@ h3 {
   .product-details {
     flex-direction: column;
     padding: 15px;
+  }
+  .product-card img {
+  width: 60%;
   }
 
   .product-info h1 {

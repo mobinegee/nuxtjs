@@ -8,12 +8,7 @@
       <div class="dropdown">
         <router-link to="/Account">
           <button class="dropbtn">
-            <img
-              src="/assets/1.png"
-              alt=""
-              width="25px"
-              height="25px"
-            />
+            <img src="https://mobinegee.github.io/vuejs/assets/1.png" alt="" width="25px" height="25px" />
             <i class="fa fa-caret-down"></i>
           </button>
         </router-link>
@@ -22,7 +17,7 @@
         <router-link to="/card">
           <button class="dropbtn">
             <img
-              src="/assets/icons8-shopping-cart-100.png"
+              src="https://mobinegee.github.io/vuejs/assets/icons8-shopping-cart-100.png"
               alt=""
               width="25px"
               height="25px"
@@ -34,7 +29,7 @@
       <div class="dropdown">
         <button class="dropbtn" @click="toggleSearchModal">
           <img
-            src="/assets/icons8-search-500 (1).png"
+            src="https://mobinegee.github.io/vuejs/assets/icons8-search-500 (1).png"
             alt=""
             width="25px"
             height="25px"
@@ -76,6 +71,8 @@
 </template>
 
 <script>
+import Swal from 'sweetalert2';
+
 import { defineComponent } from "vue";
 
 export default defineComponent({
@@ -97,6 +94,13 @@ export default defineComponent({
     performSearch() {
       if (this.searchQuery.trim() !== "") {
         this.$router.push(`/search/${this.searchQuery}`); // هدایت به صفحه جستجو با query
+        Swal.fire({
+          position: "top-center",
+          icon: "success",
+          title: "با موفقیت انجام شد",
+          showConfirmButton: false,
+          timer: 1500,
+        });
       } else {
         alert("لطفاً یک عبارت جستجو وارد کنید.");
       }
@@ -342,7 +346,7 @@ body {
     display: none;
   }
   .topnav a.icon {
-    float: right;
+    float: left;
     display: block;
   }
 }
@@ -353,13 +357,16 @@ body {
   }
   .topnav.responsive .icon {
     position: absolute;
-    right: 0;
+    left: 0;
     top: 0;
+  }
+  .topnav{
+    direction: rtl;
   }
   .topnav.responsive a {
     float: none;
     display: block;
-    text-align: left;
+    text-align: right;
   }
   .topnav.responsive .dropdown {
     float: none;
@@ -370,7 +377,7 @@ body {
   .topnav.responsive .dropdown .dropbtn {
     display: block;
     width: 100%;
-    text-align: left;
+    text-align: right;
   }
 }
 </style>

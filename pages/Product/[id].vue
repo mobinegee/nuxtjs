@@ -6,10 +6,7 @@
       <!-- بخش جزئیات محصول -->
       <div class="product-details">
         <div class="product-image">
-          <img
-            :src="`${product.image_url}`"
-            :alt="product.name"
-          />
+          <img :src="`${product.image_url}`" :alt="product.name" />
         </div>
         <div class="product-info">
           <h1>{{ product.name }}</h1>
@@ -141,8 +138,12 @@ export default {
         }
 
         const result = await response.json();
-        const currentProductId = Number(this.productId);
-        this.showcategory = true;
+        console.log("result =>", result);
+        if (result.length > 1) {
+          this.showcategory = true;
+        }
+        const currentProductId = String(this.productId);
+
         this.products = result.filter(
           (product) => product.id !== currentProductId
         );
@@ -233,7 +234,7 @@ export default {
   text-align: center;
   margin-top: 10px;
 }
-.product-moshabeh{
+.product-moshabeh {
   height: 250px;
   padding: 10px;
 }

@@ -1,12 +1,12 @@
 <template>
   <div class="section">
-    <img src="/assets/bts-header-store-202406.jpeg" alt="" />
+    <img src="public/assets/bts-header-store-202406.jpeg" alt="" />
     <h2>فروشگاه آموزش. قدرتمندترین ابزار برای یادگیری</h2>
     <div class="icon-product">
       <router-link class="product-link" to="/Productcategory/mac">
         <div>
           <img
-            src="/assets/store-card-13-mac-nav-202310.png"
+            src="public/assets/store-card-13-mac-nav-202310.png"
             alt=""
           />
           <p>مک</p>
@@ -15,7 +15,7 @@
       <router-link class="product-link" to="/Productcategory/ipad">
         <div>
           <img
-            src="/assets/store-card-13-ipad-nav-202405.png"
+            src="public/assets/store-card-13-ipad-nav-202405.png"
             alt=""
           />
           <p>آیپد</p>
@@ -24,7 +24,7 @@
       <router-link class="product-link" to="/Productcategory/iphone">
         <div>
           <img
-            src="/assets/store-card-13-iphone-nav-202309_GEO_US.png"
+            src="public/assets/store-card-13-iphone-nav-202309_GEO_US.png"
             alt=""
           />
           <p>آیفون</p>
@@ -33,7 +33,7 @@
       <router-link class="product-link" to="/Productcategory/watch">
         <div>
           <img
-            src="/assets/store-card-13-watch-nav-202309.png"
+            src="public/assets/store-card-13-watch-nav-202309.png"
             alt=""
           />
           <p>ساعت</p>
@@ -42,7 +42,7 @@
       <router-link class="product-link" to="/Productcategory/airpad">
         <div>
           <img
-            src="/assets/store-card-13-airpods-nav-202209.png"
+            src="public/assets/store-card-13-airpods-nav-202209.png"
             alt=""
           />
           <p>ایرپاد</p>
@@ -51,7 +51,7 @@
       <router-link class="product-link" to="/Productcategory/airsticker">
         <div>
           <img
-            src="/assets/store-card-13-airtags-nav-202108.png"
+            src="public/assets/store-card-13-airtags-nav-202108.png"
             alt=""
           />
           <p>برچسب هوا</p>
@@ -60,7 +60,7 @@
       <router-link class="product-link" to="/Productcategory/tv">
         <div>
           <img
-            src="/assets/store-card-13-appletv-nav-202210.png"
+            src="public/assets/store-card-13-appletv-nav-202210.png"
             alt=""
           />
           <p>تلویزیون</p>
@@ -69,7 +69,7 @@
       <router-link class="product-link" to="/Productcategory/mac">
         <div>
           <img
-            src="/assets/store-card-13-homepod-nav-202301.png"
+            src="public/assets/store-card-13-homepod-nav-202301.png"
             alt=""
           />
           <p>هوم پاد</p>
@@ -88,7 +88,7 @@ export default {
     async getallproducts() {
       try {
         const response = await fetch(
-          "https://backendvue.vercel.app/api/products/getproducts",
+          "http://localhost:5100/api/products/getproducts",
           {
             method: "GET",
           }
@@ -147,7 +147,6 @@ export default {
   width: 100%;
 }
 
-
 .section h2 {
   text-align: center;
   margin-top: 10px;
@@ -161,7 +160,7 @@ export default {
   justify-content: center;
 }
 .icon-product p {
-text-decoration: none;
+  text-decoration: none;
 }
 
 .icon-product div {
@@ -195,11 +194,36 @@ router-link {
   font-size: 1em;
 }
 
-
 /* Media Queries */
 @media screen and (max-width: 900px) {
   .icon-product div {
     flex: 1 1 25%; /* Adjust for medium screens */
+  }
+}
+@media screen and (max-width: 600px) {
+  .section img {
+    width: 100%;
+  }
+  .section h2 {
+    font-size: 14px;
+  }
+  .icon-product div {
+    width: 50px;
+  }
+  .icon-product p {
+    font-size: 10px;
+  }
+  .section {
+    padding: 0px;
+    margin-top: 10px;
+    /* margin-bottom: 50px; */
+    padding-bottom: 50px;
+  }
+  .product-link {
+    height: 100px;
+  }
+  .product-link img:hover {
+    width: 100%;
   }
 }
 
@@ -208,5 +232,4 @@ router-link {
     flex: 1 1 50%; /* Adjust for small screens */
   }
 }
-
 </style>

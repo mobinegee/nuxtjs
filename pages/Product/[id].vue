@@ -44,9 +44,9 @@
 </template>
 
 <script>
+import Swal from "sweetalert2";
 import Navbar from "../../components/Navbar/Navbar.vue";
 import Footer from "../../components/footer/footer.vue";
-
 export default {
   name: "PRODUCTS",
   components: {
@@ -55,50 +55,50 @@ export default {
   },
   data() {
     return {
-      product: {}, // برای ذخیره جزئیات محصول
+      product: {},
       products: [],
-      productId: "", // شناسه محصول به صورت رشته
+      productId: "",
       categories: "",
       showcategory: false,
-      desctiptionProduct: "", // داده ویژگی‌ها
+      desctiptionProduct: "",
     };
   },
   computed: {
     formattedPrice() {
       if (!this.product.price) return "";
-      return this.product.price.toLocaleString("fa-IR"); // استفاده از فرمت فارسی
+      return this.product.price.toLocaleString("fa-IR");
     },
 
     descriptionItems() {
-      // جدا کردن رشته ویژگی‌ها به وسیله کاما
       return this.desctiptionProduct.split(",").map((item) => item.trim());
     },
   },
   methods: {
     addToCart() {
-      // بررسی وجود سبد خرید در localStorage
       let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
-      // بررسی آیا محصول از قبل در سبد خرید وجود دارد
       const existingProduct = cart.find((item) => item.id === this.product.id);
 
       if (existingProduct) {
-        // اگر محصول موجود است، تعداد آن را افزایش دهید
         existingProduct.quantity += 1;
       } else {
-        // اگر محصول جدید است، به سبد خرید اضافه کنید
         cart.push({ ...this.product, quantity: 1 });
       }
 
-      // ذخیره سبد خرید به‌روز شده در localStorage
       localStorage.setItem("cart", JSON.stringify(cart));
 
-      // پیام موفقیت یا هشدار
-      alert(`${this.product.name} به سبد خرید اضافه شد!`);
+      // Display success message using SweetAlert
+      Swal.fire({
+        title: "محصول اضافه شد!",
+        text: `${this.product.name} به سبد خرید اضافه شد.`,
+        icon: "success",
+        confirmButtonText: "باشه",
+        timer: 1500,
+      });
     },
+
     async getProductById() {
       try {
-        // دریافت شناسه محصول از پارامتر URL
         this.productId = this.$route.params.id;
 
         const response = await fetch(
@@ -122,6 +122,7 @@ export default {
         console.error("Error fetching product details:", error);
       }
     },
+
     async getallproducts() {
       try {
         const response = await fetch(
@@ -138,12 +139,11 @@ export default {
         }
 
         const result = await response.json();
-        console.log("result =>", result);
         if (result.length > 1) {
           this.showcategory = true;
         }
-        const currentProductId = String(this.productId);
 
+        const currentProductId = String(this.productId);
         this.products = result.filter(
           (product) => product.id !== currentProductId
         );
@@ -151,6 +151,7 @@ export default {
         console.error("Error fetching products:", error);
       }
     },
+
     scrollToTop() {
       window.scrollTo({
         top: 0,
@@ -158,22 +159,25 @@ export default {
       });
     },
   },
+
   watch: {
     "$route.params.id": {
       handler() {
-        this.getProductById(); // دریافت محصول جدید
-        this.getallproducts(); // دریافت محصولات مشابه جدید
-        this.scrollToTop(); // اسکرول به بالای صفحه
+        this.getProductById();
+        this.getallproducts();
+        this.scrollToTop();
       },
       immediate: true,
     },
   },
+
   async mounted() {
     await this.getProductById();
     await this.getallproducts();
     this.scrollToTop();
   },
 };
+
 </script>
 
 <style scoped>
@@ -195,7 +199,9 @@ export default {
 .product-info li:hover {
   background-color: #e2e6ea; /* تغییر رنگ پس‌زمینه در حالت هاور */
 }
-
+.custom-link {
+  width: 150px;
+}
 .home {
   text-align: center;
   background-color: #f4f4f4;
@@ -221,7 +227,7 @@ export default {
 
 .product-image img {
   max-width: 100%;
-  height: 450px;
+  height: 400px;
   border-radius: 10px;
   transition: transform 0.3s ease;
 }

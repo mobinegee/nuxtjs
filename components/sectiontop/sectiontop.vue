@@ -86,6 +86,9 @@ export default {
   background-color: #28a745;
   color: white;
 }
+.custom-link {
+  width: 150px;
+}
 
 .product-card:hover {
   transform: scale(1.05);

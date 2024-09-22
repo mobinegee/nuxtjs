@@ -5,12 +5,14 @@
       <h1 class="name">{{ user.name }}</h1>
       <p class="email">{{ user.email }}</p>
       <p class="bio">{{ user.bio }}</p>
-      <button @click="exitaccount">خروج از حساب کاربری</button>
+      <button @click="confirmExit">خروج از حساب کاربری</button>
     </div>
   </div>
 </template>
 
 <script>
+import Swal from 'sweetalert2';
+
 export default {
   name: "USERINFORMATION",
   data() {
@@ -24,15 +26,39 @@ export default {
     };
   },
   methods: {
+    confirmExit() {
+      // نمایش پیغام تأیید با استفاده از SweetAlert2
+      Swal.fire({
+        title: 'آیا مطمئن هستید؟',
+        text: "در صورت خروج، دسترسی شما به حساب کاربری قطع خواهد شد.",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'بله، خارج شو!',
+        cancelButtonText: 'لغو',
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this.exitaccount();
+        }
+      });
+    },
     exitaccount() {
       // پاک کردن Authtoken از Local Storage
       localStorage.removeItem('authToken');
       
       // هدایت کاربر به صفحه ورود
       this.$router.push('/');
-      
+
       // در صورت عدم استفاده از Vue Router، می‌توانید از window.location استفاده کنید:
       // window.location.href = '/login';
+      
+      // نمایش پیغام موفقیت
+      Swal.fire(
+        'خارج شدید!',
+        'شما با موفقیت از حساب کاربری خود خارج شدید.',
+        'success'
+      );
     },
   },
 };

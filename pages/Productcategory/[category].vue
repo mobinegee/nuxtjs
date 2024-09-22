@@ -5,12 +5,14 @@
       <Navbar />
       <div v-if="products.length > 0" class="product-grid">
         <div class="product-card" v-for="product in products" :key="product.id">
-          <img
-            :src="`${product.image_url}`"
-            :alt="product.name"
-          />
+          <img :src="`${product.image_url}`" :alt="product.name" />
           <div class="product-card-info">
-            <h3>{{ product.name.substring(0, 40) + (product.name.length > 10 ? '...' : '') }}</h3>
+            <h3>
+              {{
+                product.name.substring(0, 40) +
+                (product.name.length > 10 ? "..." : "")
+              }}
+            </h3>
             <!-- <p>{{ product.description }}</p> -->
             <router-link class="custom-link" :to="`/Product/${product.id}`"
               >بیشتر</router-link
@@ -59,14 +61,14 @@ export default {
         }
 
         const result = await response.json();
-        this.products = result ;
+        this.products = result;
       } catch (error) {
         console.error("Error fetching products:", error);
       }
     },
   },
   watch: {
-    '$route.params.category': 'getallproducts',
+    "$route.params.category": "getallproducts",
   },
   async mounted() {
     await this.getallproducts(); // بارگذاری محصولات مشابه
@@ -74,14 +76,13 @@ export default {
 };
 </script>
 
-
-
 <style scoped>
-html, body {
+html,
+body {
   height: 100%;
   margin: 0;
 }
-.not-product{
+.not-product {
   margin: 20px;
   text-align: center;
 }
@@ -215,7 +216,7 @@ html, body {
   padding: 1rem;
   text-align: center;
 }
-.product-grid{
+.product-grid {
   margin-top: 50px;
 }
 h3 {
@@ -269,7 +270,7 @@ h3 {
     padding: 15px;
   }
   .product-card img {
-  width: 60%;
+    width: 80%;
   }
 
   .product-info h1 {

@@ -68,8 +68,8 @@ export default {
   text-align: center;
 }
 .footer {
-  position: fixed;
-  bottom: 0px;
+  /* position: fixed; */
+  /* bottom: 0px; */
 }
 .login-button {
   /* width: 100%; */

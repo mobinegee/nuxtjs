@@ -24,14 +24,12 @@
       <!-- بخش محصولات مشابه -->
       <div class="product-grid">
         <div class="product-card" v-for="product in products" :key="product.id">
-          <img
-            :src="`${product.image_url}`"
-            :alt="product.name"
-            class="product-moshabeh"
-          />
+          <img :src="`${product.image_url}`" :alt="product.name" />
           <div class="product-card-info">
             <h3>{{ product.name }}</h3>
-            <router-link class="custom-link" :to="`/Product/${product.id}`"
+            <router-link
+              class="custom-link"
+              :to="`/Product/${product.id}`"
               >بیشتر</router-link
             >
           </div>
@@ -45,8 +43,10 @@
 
 <script>
 import Swal from "sweetalert2";
-import Navbar from "../../components/Navbar/Navbar.vue";
-import Footer from "../../components/footer/footer.vue";
+
+import Navbar from "../../../components/compoent/Navbar/Navbar.vue";
+import Footer from "../../../components/compoent/Foooter/Footer.vue";
+
 export default {
   name: "PRODUCTS",
   components: {
@@ -55,50 +55,55 @@ export default {
   },
   data() {
     return {
-      product: {},
+      product: {}, // برای ذخیره جزئیات محصول
       products: [],
-      productId: "",
+      productId: "", // شناسه محصول به صورت رشته
       categories: "",
       showcategory: false,
-      desctiptionProduct: "",
+      desctiptionProduct: "", // داده ویژگی‌ها
     };
   },
   computed: {
-    formattedPrice() {
-      if (!this.product.price) return "";
-      return this.product.price.toLocaleString("fa-IR");
-    },
+formattedPrice() {
+  if (!this.product.price) return "";
+  return this.product.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+},
 
     descriptionItems() {
+      // جدا کردن رشته ویژگی‌ها به وسیله کاما
       return this.desctiptionProduct.split(",").map((item) => item.trim());
     },
   },
   methods: {
     addToCart() {
+      // بررسی وجود سبد خرید در localStorage
       let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
+      // بررسی آیا محصول از قبل در سبد خرید وجود دارد
       const existingProduct = cart.find((item) => item.id === this.product.id);
 
       if (existingProduct) {
+        // اگر محصول موجود است، تعداد آن را افزایش دهید
         existingProduct.quantity += 1;
       } else {
+        // اگر محصول جدید است، به سبد خرید اضافه کنید
         cart.push({ ...this.product, quantity: 1 });
       }
 
+      // ذخیره سبد خرید به‌روز شده در localStorage
       localStorage.setItem("cart", JSON.stringify(cart));
 
-      // Display success message using SweetAlert
+      // پیام موفقیت یا هشدار
       Swal.fire({
-        title: "محصول اضافه شد!",
-        text: `${this.product.name} به سبد خرید اضافه شد.`,
+        title: "موفقیت!",
+        text: `${this.product.name} به سبد خرید اضافه شد!`,
         icon: "success",
         confirmButtonText: "باشه",
-        timer: 1500,
       });
     },
-
     async getProductById() {
       try {
+        // دریافت شناسه محصول از پارامتر URL
         this.productId = this.$route.params.id;
 
         const response = await fetch(
@@ -122,7 +127,6 @@ export default {
         console.error("Error fetching product details:", error);
       }
     },
-
     async getallproducts() {
       try {
         const response = await fetch(
@@ -139,11 +143,10 @@ export default {
         }
 
         const result = await response.json();
+        const currentProductId = String(this.productId);
         if (result.length > 1) {
           this.showcategory = true;
         }
-
-        const currentProductId = String(this.productId);
         this.products = result.filter(
           (product) => product.id !== currentProductId
         );
@@ -151,7 +154,6 @@ export default {
         console.error("Error fetching products:", error);
       }
     },
-
     scrollToTop() {
       window.scrollTo({
         top: 0,
@@ -159,28 +161,29 @@ export default {
       });
     },
   },
-
   watch: {
     "$route.params.id": {
       handler() {
-        this.getProductById();
-        this.getallproducts();
-        this.scrollToTop();
+        this.getProductById(); // دریافت محصول جدید
+        this.getallproducts(); // دریافت محصولات مشابه جدید
+        this.scrollToTop(); // اسکرول به بالای صفحه
       },
       immediate: true,
     },
   },
-
   async mounted() {
     await this.getProductById();
     await this.getallproducts();
     this.scrollToTop();
   },
 };
-
 </script>
 
 <style scoped>
+html, body {
+  height: 100%;
+  margin: 0;
+}
 .product-info ul {
   list-style-type: none; /* حذف بولت‌ها */
   padding: 0; /* حذف پدینگ پیش‌فرض */
@@ -199,22 +202,30 @@ export default {
 .product-info li:hover {
   background-color: #e2e6ea; /* تغییر رنگ پس‌زمینه در حالت هاور */
 }
-.custom-link {
-  width: 150px;
-}
+
 .home {
-  text-align: center;
-  background-color: #f4f4f4;
-  /* padding: 20px 0; */
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* Ensure it takes at least the full height */
 }
 
+.Footer {
+  background-color: #f1f1f1;
+  padding: 10px 0;
+  text-align: center;
+}
+
+
 .container {
+  flex: 1; /* Take up remaining space */
   margin-top: 20px;
 }
+
 
 /* استایل بخش جزئیات محصول */
 .product-details {
   display: flex;
+  text-align: center;
   flex-direction: column;
   align-items: center;
   background: #fff;
@@ -226,8 +237,8 @@ export default {
 }
 
 .product-image img {
-  max-width: 100%;
-  height: 400px;
+  max-width: 80%;
+  height: auto;
   border-radius: 10px;
   transition: transform 0.3s ease;
 }
@@ -239,10 +250,6 @@ export default {
 .product-info {
   text-align: center;
   margin-top: 10px;
-}
-.product-moshabeh {
-  height: 250px;
-  padding: 10px;
 }
 
 .product-info h1 {
@@ -292,6 +299,7 @@ export default {
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   overflow: hidden;
+  text-align: center;
   width: 100%;
   max-width: 300px;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -319,6 +327,7 @@ export default {
 }
 h3 {
   margin: 20px 0px 20px 0px;
+  text-align : center;
 }
 .custom-link {
   display: inline-block;
@@ -327,6 +336,8 @@ h3 {
   color: white !important;
   text-decoration: none;
   border-radius: 5px;
+  width: 150px;
+  margin-top: 30px;
   font-weight: bold;
   transition: background-color 0.3s ease;
 }

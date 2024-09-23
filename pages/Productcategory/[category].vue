@@ -5,14 +5,18 @@
       <Navbar />
       <div v-if="products.length > 0" class="product-grid">
         <div class="product-card" v-for="product in products" :key="product.id">
-          <img
-            :src="product.image_url"
-            :alt="product.name"
-          />
+          <img :src="`${product.image_url}`" :alt="product.name" />
           <div class="product-card-info">
-            <h3>{{ product.name.substring(0, 40) + (product.name.length > 10 ? '...' : '') }}</h3>
+            <h3>
+              {{
+                product.name.substring(0, 40) +
+                (product.name.length > 10 ? "..." : "")
+              }}
+            </h3>
             <!-- <p>{{ product.description }}</p> -->
-            <router-link class="custom-link" :to="`/Product/${product.id}`">بیشتر</router-link>
+            <router-link class="custom-link" :to="`/Product/${product.id}`"
+              >بیشتر</router-link
+            >
           </div>
         </div>
       </div>
@@ -23,8 +27,8 @@
 </template>
 
 <script>
-import Navbar from "../../../components/compoent/Navbar/Navbar.vue";
-import Footer from "../../../components/compoent/Foooter/Footer.vue";
+import Navbar from "../../components/Navbar/Navbar.vue";
+import Footer from "../../components/footer/footer.vue";
 
 export default {
   name: "PRODUCTS",
@@ -51,7 +55,9 @@ export default {
         );
 
         if (!response.ok) {
-          throw new Error(`Error fetching data! HTTP Status: ${response.status}`);
+          throw new Error(
+            `Error fetching data! HTTP Status: ${response.status}`
+          );
         }
 
         const result = await response.json();
@@ -62,7 +68,7 @@ export default {
     },
   },
   watch: {
-    '$route.params.category': 'getallproducts',
+    "$route.params.category": "getallproducts",
   },
   async mounted() {
     await this.getallproducts(); // بارگذاری محصولات مشابه
@@ -70,15 +76,13 @@ export default {
 };
 </script>
 
-
-
-
 <style scoped>
-html, body {
+html,
+body {
   height: 100%;
   margin: 0;
 }
-.not-product{
+.not-product {
   margin: 20px;
   text-align: center;
 }
@@ -182,8 +186,8 @@ html, body {
 
 .product-card {
   background-color: white;
-  border-radius: 8px;
   text-align: center;
+  border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   overflow: hidden;
   width: 100%;
@@ -197,19 +201,13 @@ html, body {
 }
 
 .product-card img {
-  width: 80%;
-  height: auto;
+  width: 100%;
+  height: 300px;
   padding: 10px;
   object-fit: cover;
   transition: transform 0.3s ease;
 }
-/* .product-card img {
-  width: 80%; 
-  height: 350px; 
-  padding: 10px;
-  object-fit: cover; 
-  transition: transform 
-} */
+
 .product-card img:hover {
   transform: scale(1.1);
 }
@@ -218,7 +216,7 @@ html, body {
   padding: 1rem;
   text-align: center;
 }
-.product-grid{
+.product-grid {
   margin-top: 50px;
 }
 h3 {
@@ -241,8 +239,6 @@ h3 {
 .custom-link:hover {
   background-color: #0d6efd;
   color: white;
-    text-decoration: none;
-
 }
 
 .product-card-info h3 {
@@ -265,8 +261,6 @@ h3 {
 
 .custom-link:hover {
   text-decoration: underline;
-    text-decoration: none;
-
 }
 
 /* Media Queries برای موبایل */
@@ -274,6 +268,9 @@ h3 {
   .product-details {
     flex-direction: column;
     padding: 15px;
+  }
+  .product-card img {
+    width: 80%;
   }
 
   .product-info h1 {

@@ -44,7 +44,6 @@
       <router-link class="topnava" to="/Productcategory/sumsong"
         >سامسونگ</router-link
       >
-      <router-link class="topnava" to="/Adminpanel">ادمین پنل</router-link>
       <a
         class="topnava icon"
         href="javascript:void(0);"

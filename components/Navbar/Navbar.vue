@@ -3,7 +3,6 @@
     <!-- Navbar -->
     <div class="topnav" :class="{ responsive: isResponsive }" id="myTopnav">
       <router-link class="namesite" to="/">اپل پلاس</router-link>
-      <router-link class="topnava" to="/Allproducts">فروشگاه</router-link>
       <router-link class="topnava" to="/Productcategory/mac">مک</router-link>
       <div class="dropdown">
         <router-link to="/Account">
